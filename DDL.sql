@@ -1,20 +1,32 @@
-drop table EMPLOYEES;
+if OBJECT_ID('EMPLOYEES') is not null  
+  drop table EMPLOYEES;
 
-drop table PRICE_HISTORY;
-drop table PRODUCT_IN_ORDERS;
-drop table PRODUCT_IN_SHOPS;
-drop table FEEDBACK;
-drop table PRODUCTS;
+if OBJECT_ID('PRICE_HISTORY') is not null  
+  drop table PRICE_HISTORY;
+if OBJECT_ID('PRODUCT_IN_ORDERS') is not null  
+  drop table PRODUCT_IN_ORDERS;
+if OBJECT_ID('PRODUCT_IN_SHOPS') is not null  
+  drop table PRODUCT_IN_SHOPS;
+if OBJECT_ID('FEEDBACK') is not null  
+  drop table FEEDBACK;
+if OBJECT_ID('PRODUCTS') is not null  
+  drop table PRODUCTS;
 
-drop table COMPLAINTS_ON_SHOPS;
-drop table COMPLAINTS_ON_ORDERS;
-drop table COMPLAINTS;
+if OBJECT_ID('COMPLAINTS_ON_SHOPS') is not null  
+  drop table COMPLAINTS_ON_SHOPS;
+if OBJECT_ID('COMPLAINTS_ON_ORDERS') is not null  
+  drop table COMPLAINTS_ON_ORDERS;
+if OBJECT_ID('COMPLAINTS') is not null  
+  drop table COMPLAINTS;
+ 
+if OBJECT_ID('ORDERS') is not null  
+  drop table ORDERS;
 
-drop table ORDERS;
+if OBJECT_ID('USERS') is not null  
+  drop table USERS;
 
-drop table USERS;
-
-drop table SHOPS;
+if OBJECT_ID('SHOPS') is not null  
+  drop table SHOPS;
 
 
 create table SHOPS (
