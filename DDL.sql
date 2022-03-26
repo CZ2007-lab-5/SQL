@@ -1,6 +1,3 @@
-if OBJECT_ID('EMPLOYEES') is not null  
-  drop table EMPLOYEES;
-
 if OBJECT_ID('PRICE_HISTORY') is not null  
   drop table PRICE_HISTORY;
 if OBJECT_ID('PRODUCT_IN_ORDERS') is not null  
@@ -18,6 +15,9 @@ if OBJECT_ID('COMPLAINTS_ON_ORDERS') is not null
   drop table COMPLAINTS_ON_ORDERS;
 if OBJECT_ID('COMPLAINTS') is not null  
   drop table COMPLAINTS;
+
+if OBJECT_ID('EMPLOYEES') is not null  
+  drop table EMPLOYEES;
  
 if OBJECT_ID('ORDERS') is not null  
   drop table ORDERS;
