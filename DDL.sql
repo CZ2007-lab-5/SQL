@@ -38,7 +38,7 @@ create table SHOPS (
 create table EMPLOYEES (
   ID varchar(8),
   Name varchar(70) not null,
-  Salary int not null check(Salary > 0),
+  Salary numeric(12, 2) not null check(Salary > 0),
   primary key (ID)
 );
 
@@ -76,6 +76,7 @@ create table ORDERS (
   UID varchar(8),
   Date_time datetime not null,
   Shipping_address varchar(100) not null,
+  Shipping_cost numeric(12, 2),
   primary key (OID),
   foreign key (UID) references USERS(UID) on update cascade on delete set null
 );
