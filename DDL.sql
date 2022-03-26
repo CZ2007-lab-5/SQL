@@ -53,9 +53,9 @@ create table COMPLAINTS (
   UID varchar(8),
   Text varchar(300) not null,
   Filed_date_time datetime not null,
-  Handled_date_time datetime not null,
-  Addressed_date_time datetime not null,
-  Status varchar(20) check (Status in ('delivered', 'pending', 'being handled', 'addressed')),
+  Handled_date_time datetime,
+  Addressed_date_time datetime,
+  Status varchar(20) check (Status in ('pending', 'being handled', 'addressed')),
   primary key (ID),
   foreign key (UID) references USERS(UID) on update cascade on delete set null
 );
