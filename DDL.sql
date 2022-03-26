@@ -138,5 +138,5 @@ create table PRICE_HISTORY (
   End_date date, -- null if End_date is today?
   Price numeric(12, 2) not null check(Price > 0),
   primary key (PID, Start_date),
-  foreign key (PID) references PRODUCTS_IN_SHOPS(PID) on update cascade on delete cascade
+  foreign key (PID) references PRODUCT_IN_SHOPS(PID) on update cascade on delete cascade
 );
