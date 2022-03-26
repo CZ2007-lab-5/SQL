@@ -51,13 +51,15 @@ create table USERS (
 create table COMPLAINTS (
   ID varchar(8),
   UID varchar(8),
+  EID varchar(8),
   Text varchar(300) not null,
   Filed_date_time datetime not null,
   Handled_date_time datetime,
   Addressed_date_time datetime,
   Status varchar(20) check (Status in ('pending', 'being handled', 'addressed')),
   primary key (ID),
-  foreign key (UID) references USERS(UID) on update cascade on delete set null
+  foreign key (UID) references USERS(UID) on update cascade on delete set null,
+  foreign key (EID) references EMPLOYEES(ID) on update cascade on delete set null
 );
 
 create table COMPLAINTS_ON_SHOPS (
@@ -112,7 +114,7 @@ create table PRODUCT_IN_SHOPS (
   SPrice numeric(12, 2) not null check(SPrice > 0),
   SQuantity int not null check(SQuantity >= 0),
   primary key (PID),
-  -- foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
+  foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
   -- foreign key (SID) references SHOPS(SID) on update cascade on delete cascade
 );
 
@@ -136,5 +138,5 @@ create table PRICE_HISTORY (
   End_date date, -- null if End_date is today?
   Price numeric(12, 2) not null check(Price > 0),
   primary key (PID, Start_date),
-  foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade
+  foreign key (PID) references PRODUCTS_IN_SHOPS(PID) on update cascade on delete cascade
 );
