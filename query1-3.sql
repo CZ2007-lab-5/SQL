@@ -1,13 +1,27 @@
 -- query 1
--- with iPhoneXs_PIDS as (
---   select PID
---   from PRODUCTS as P
---   where PName = 'iPhone Xs'
--- )
--- select avg(price)
--- from iPhoneXs_PIDS inner join PRICE_HISTORY as PH on (iPhoneXs_PIDS.PID = PH.PID)
--- where '2021-08-01' <= PRICE_HISTORY.date 
---       and PRICE_HISTORY.date <= '2021-08-31';
+with iPhoneXs_PIDS as (
+  select PName, PID
+  from PRODUCTS
+  where PName = 'iPhone Xs'
+),
+PH_records as (
+  select I.PID, I.PName, PH.price, PH.Start_date, PH.End_date
+  from iPhoneXs_PIDS as I inner join PRICE_HISTORY as PH on (I.PID = PH.PID)
+  where (PH.Start_date between '2021-08-01' and '2021-08-31')
+        or (PH.End_date between '2021-08-01' and '2021-08-31')
+),
+price_times_date_record as (
+  select PID, PName, (datediff(day, 
+                              IIF('2021-08-01' > Start_date, '2021-08-01', Start_date), 
+                              IIF('2021-08-31' < End_date, '2021-08-31', End_date)
+                              )
+                      + 1) as price_times_date
+  from PH_records
+)
+select PID, PName, sum(price_times_date)/(datediff(day, '2021-08-01', '2021-08-31') + 1) as price_avg
+from price_times_date_record
+group by PID, PName;
+
 
 -- query 2
 with selected_pids as (
@@ -36,7 +50,7 @@ from rating_info inner join PRODUCTS as P on (rating_info.PID = P.PID)
 order by rating_avg
 
 -- query 3
-select avg(datediff(day, A.Delivery_date, A.Date_time)) as delivery_time_avg
+select avg(datediff(day, A.Delivery_date, A.Date_time)+1) as delivery_time_avg
 from (
   select P.PID, P.OID, Date_time, Delivery_date, Status
   from  PRODUCT_IN_ORDERS as P
