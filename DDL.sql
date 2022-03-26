@@ -110,33 +110,34 @@ create table FEEDBACK (
 
 create table PRODUCT_IN_SHOPS (
   PID varchar(8),
-  SID varchar(8) not null,
+  SID varchar(8),
   SPrice numeric(12, 2) not null check(SPrice > 0),
   SQuantity int not null check(SQuantity >= 0),
-  primary key (PID),
+  primary key (PID, SID),
   foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
-  -- foreign key (SID) references SHOPS(SID) on update cascade on delete cascade
+  foreign key (SID) references SHOPS(SID) on update cascade on delete cascade
 );
 
 create table PRODUCT_IN_ORDERS (
   PID varchar(8),
-  OID varchar(8) not null,
-  SID varchar(8) not null,
+  OID varchar(8),
+  SID varchar(8),
   OPrice numeric(12, 2) not null check(OPrice > 0),
   OQuantity int not null check(OQuantity >= 0),
   Delivery_date date not null,
   Status varchar(8) check(Status in ('being processed', 'shipped', 'returned', 'delivered')),
-  primary key (PID),
+  primary key (PID, OID, SID),
   foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
-  -- foreign key (OID) references ORDERS(OID) on update cascade on delete cascade,
+  foreign key (OID) references ORDERS(OID) on update cascade on delete cascade,
   -- foreign key (SID) references SHOPS(SID) on update cascade on delete cascade
 );
 
 create table PRICE_HISTORY (
   PID varchar(8),
+  SID varchar(8),
   Start_date date,
   End_date date, -- null if End_date is today?
   Price numeric(12, 2) not null check(Price > 0),
   primary key (PID, Start_date),
-  foreign key (PID) references PRODUCT_IN_SHOPS(PID) on update cascade on delete cascade
+  foreign key (PID, SID) references PRODUCT_IN_SHOPS(PID, SID) on update cascade on delete cascade
 );
