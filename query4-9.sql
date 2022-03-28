@@ -55,23 +55,23 @@ WHERE SHOP_REVENUE.Total_revenue = (select MAX(Total_revenue) from SHOP_REVENUE)
 -- query 7
 -- Find the user that made the most amount of complaints
 WITH COMPLAINT_COUNT AS (
-      SELECT UID
+      SELECT UID, COUNT(*) as Complaint_num
       FROM COMPLAINTS
-      GROUP BY UID
-      HAVING COUNT(*) >= ALL (SELECT COUNT(*)
-                              FROM COMPLAINTS
-                              GROUP BY UID)),
+      GROUP BY UID),
+USER_WITH_MOST AS (
+      SELECT UID
+      FROM COMPLAINT_COUNT
+      WHERE Complaint_num = (SELECT MAX(Complaint_num) FROM COMPLAINT_COUNT)),
 -- Find all the products the user purchased before
 USER_PRODUCT AS (
-      SELECT F.UID, PO.PID, PO.Oprice
-      FROM PRODUCT_IN_ORDERS AS PO, FEEDBACK AS F, COMPLAINT_COUNT AS CC
-      WHERE PO.PID = F.PID AND
-            F.UID = CC.UID)
-SELECT UP1.UID, UP1.PID
-FROM USER_PRODUCT AS UP1
-WHERE UP1.OPrice >= ALL (SELECT OPrice
-                         FROM USER_PRODUCT AS UP2
-                         WHERE UP1.UID = UP2.UID);
+  SELECT USER_WITH_MOST.UID as UID, PRODUCT_IN_ORDERS.PID as PID, PRODUCT_IN_ORDERS.OPrice as price
+  FROM USER_WITH_MOST
+      INNER JOIN ORDERS ON USER_WITH_MOST.UID = ORDERS.UID
+      INNER JOIN PRODUCT_INORDERS ON ORDERS.OID = PRODUCT_INORDERS.OID
+)
+SELECT *
+FROM USER_PRODUCT
+WHERE price = (SELECT MAX(price) FROM USER_PRODUCT);
 
 
 -- query 8
