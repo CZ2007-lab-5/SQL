@@ -17,7 +17,7 @@
 
 -- Find the average latency for each employee
 WITH COMPLAINT_LATENCY AS (
-      SELECT EID, AVG(datediff(second, Handled_date_time, Addressed_date_time)) as Latency   -- not sure about the latency
+      SELECT EID, AVG(datediff(day, Handled_date_time, Addressed_date_time)) as Latency   -- not sure about the latency
       FROM COMPLAINTS
       WHERE Status = 'addressed'
       GROUP BY EID)
