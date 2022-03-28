@@ -70,14 +70,16 @@ WHERE UP1.OPrice >= ALL (SELECT OPrice
 
 
 -- query 8
--- Find the number of users who purchased this product before
+-- Find the number of users who purchased each product before in 2021 Auguest
 WITH PRODUCT_USER AS (
       SELECT P.PName, COUNT(*) AS Num_of_users
-      FROM PRODUCTS AS P, PRODUCT_IN_ORDERS AS PO
-      WHERE P.PID = PO.PID
+      FROM PRODUCTS AS P, PRODUCT_IN_ORDERS AS PO, ORDERS AS O
+      WHERE P.PID = PO.PID AND
+            O.OID = PO.OID AND
+            O.Date_time BETWEEN '2021-08-01' AND '2021-08-31'
       GROUP BY P.PName
 )
-SELECT PName
+SELECT TOP 5 PName
 FROM PRODUCT_USER AS PU
 WHERE PU.Num_of_users != (SELECT COUNT(*)
                           FROM USERS)
