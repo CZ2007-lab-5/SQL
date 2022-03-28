@@ -40,11 +40,16 @@ GROUP BY P.PName;
 
 
 -- query 6
-SELECT PO.SID, SUM(PO.OPrice * PO.OQuantity) AS Total_revenue
-FROM PRODUCT_IN_ORDERS AS PO, ORDERS AS O
-WHERE PO.OID = O.OID AND 
-      O.Date_time BETWEEN '2021-08-01' AND '2021-08-31'
-GROUP BY PO.SID;
+WITH SHOP_REVENUE as (
+  SELECT PO.SID, SUM(PO.OPrice * PO.OQuantity) AS Total_revenue
+  FROM PRODUCT_IN_ORDERS AS PO, ORDERS AS O
+  WHERE PO.OID = O.OID AND 
+        O.Date_time BETWEEN '2021-08-01' AND '2021-08-31'
+  GROUP BY PO.SID
+)
+SELECT *
+FROM SHOP_REVENUE
+WHERE SHOP_REVENUE.Total_revenue = (select MAX(Total_revenue) from SHOP_REVENUE);
 
 
 -- query 7
