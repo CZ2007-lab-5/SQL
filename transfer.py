@@ -38,7 +38,10 @@ for table in tables:
         if is_numeric_dtype(types[j]):
           values += row_j_str
         else:
-          values += "\'" + row_j_str + "\'"
+          if row_j_str.upper() == "NAT":
+            values += "NULL"
+          else:
+            values += "\'" + row_j_str + "\'"
       prefix = ", "
     values += ");\n"
     single_insertion_file.write("INSERT INTO {0} VALUES ".format(table) + values)
