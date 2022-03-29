@@ -56,7 +56,7 @@ create table COMPLAINTS (
   Filed_date_time datetime not null,
   Handled_date_time datetime,
   Addressed_date_time datetime,
-  Status varchar(20) check (Status in ('pending', 'being handled', 'addressed')),
+  Status varchar(20) check (Status in ('Pending', 'Being handled', 'Addressed')),
   primary key (ID),
   foreign key (UID) references USERS(UID) on update cascade on delete set null,
   foreign key (EID) references EMPLOYEES(ID) on update cascade on delete set null
@@ -126,7 +126,7 @@ create table PRODUCT_IN_ORDERS (
   OPrice numeric(12, 2) not null check(OPrice > 0),
   OQuantity int not null check(OQuantity >= 0),
   Delivery_date date,
-  Status varchar(20) check(Status in ('being processed', 'shipped', 'returned', 'delivered')),
+  Status varchar(20) check(Status in ('Being processed', 'Shipped', 'Returned', 'Delivered')),
   primary key (PID, OID, SID),
   foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
   foreign key (OID) references ORDERS(OID) on update cascade on delete cascade,
