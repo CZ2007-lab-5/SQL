@@ -1,0 +1,4 @@
+*.xlsx
+*.sql
+.DS_Store
+*.log

@@ -136,9 +136,9 @@ create table PRODUCT_IN_ORDERS (
 create table PRICE_HISTORY (
   PID varchar(8),
   SID varchar(8),
+  Price numeric(12, 2) not null check(Price > 0),
   Start_date date,
   End_date date not null, -- null if End_date is today?
-  Price numeric(12, 2) not null check(Price > 0),
   primary key (PID, Start_date),
   foreign key (PID) references PRODUCT_IN_SHOPS(PID) on update cascade on delete cascade
 );
