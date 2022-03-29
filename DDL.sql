@@ -126,7 +126,7 @@ create table PRODUCT_IN_ORDERS (
   OPrice numeric(12, 2) not null check(OPrice > 0),
   OQuantity int not null check(OQuantity >= 0),
   Delivery_date date,
-  Status varchar(8) check(Status in ('Being processed', 'Shipped', 'Returned', 'Delivered')),
+  Status varchar(20) check(Status in ('Being processed', 'Shipped', 'Returned', 'Delivered')),
   primary key (PID),
   foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
   foreign key (OID) references ORDERS(OID) on update cascade on delete cascade,
