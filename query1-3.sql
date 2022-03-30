@@ -29,7 +29,7 @@ group by PID, PName;
 
 -- query 2
 -- select those product(pid) have 100+ 5-star feedback in August
-with selected_pids as (
+with five_star_in_june as (
   select PID
   from FEEDBACK as F
   where (
@@ -37,23 +37,30 @@ with selected_pids as (
       and F.Date_time < '2021-09-01'
       and rating = '5'
   )
-  group by PID
-  having count(rating) >= 100
+),
+selected_product_pname as (
+  select P.PName, count(P.PID) as rating_count
+  from PRODUCTS as P join five_star_in_june on (P.PID = five_star_in_june.PID)
+  group by PName
+),
+selected_product_pid as (
+  select P.PID, P.PName
+  from PRODUCTS as P join selected_product_pname on (P.PName = selected_product_pname.PName)
 ),
 -- for the selected product(pid), calculate average ratings
 rating_info as (
-  select F.PID, avg(rating) as rating_avg
+  select PName, avg(rating) as rating_avg
   from (
     FEEDBACK as F
     inner join 
-    selected_pids 
-    on (F.PID = selected_pids.PID)
+    selected_product_pid 
+    on (F.PID = selected_product_pid.PID)
   )
-  group by F.PID
+  group by PName
 )
 -- order by average ratings
-select P.PID, P.Pname, rating_avg
-from rating_info inner join PRODUCTS as P on (rating_info.PID = P.PID)
+select *
+from rating_info
 order by rating_avg
 
 -- query 3
