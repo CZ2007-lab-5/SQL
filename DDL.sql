@@ -91,7 +91,7 @@ create table COMPLAINTS_ON_ORDERS (
 );
 
 create table PRODUCTS (
-  PID varchar(8),
+  PID varchar(70),
   PName varchar(70) not null,
   Maker varchar(70) not null,
   Category varchar(70) not null,
@@ -100,7 +100,7 @@ create table PRODUCTS (
 
 create table FEEDBACK (
   UID varchar(8),
-  PID varchar(8),
+  PID varchar(70),
   Rating int not null check(Rating in (1, 2, 3, 4, 5)),
   Date_time datetime not null,
   Comment varchar(300),
@@ -110,32 +110,31 @@ create table FEEDBACK (
 );
 
 create table PRODUCT_IN_SHOPS (
-  PID varchar(8),
+  PID varchar(70),
   SID varchar(8),
-  SPrice numeric(12, 2) not null check(SPrice > 0),
   SQuantity int not null check(SQuantity >= 0),
+  SPrice numeric(12, 2) not null check(SPrice > 0),
   primary key (PID),
   foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
   foreign key (SID) references SHOPS(SID) on update cascade on delete cascade
 );
 
 create table PRODUCT_IN_ORDERS (
-  PID varchar(8),
-  OID varchar(8),
+  PID varchar(70),
   SID varchar(8),
+  OID varchar(8),
   OPrice numeric(12, 2) not null check(OPrice > 0),
   OQuantity int not null check(OQuantity >= 0),
   Delivery_date date,
   Status varchar(20) check(Status in ('Being processed', 'Shipped', 'Returned', 'Delivered')),
   primary key (PID),
   foreign key (PID) references PRODUCTS(PID) on update cascade on delete cascade,
-  foreign key (OID) references ORDERS(OID) on update cascade on delete cascade,
-  -- foreign key (SID) references SHOPS(SID) on update cascade on delete cascade
+  foreign key (SID) references SHOPS(SID) on update cascade on delete cascade,
+  foreign key (OID) references ORDERS(OID) on update cascade on delete cascade
 );
 
 create table PRICE_HISTORY (
-  PID varchar(8),
-  SID varchar(8),
+  PID varchar(70),
   Price numeric(12, 2) not null check(Price > 0),
   Start_date date,
   End_date date,

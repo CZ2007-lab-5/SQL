@@ -32,7 +32,7 @@ for table in tables:
         continue
       values += prefix
       row_j_str = str(row[j])
-      if re.match(".*ID$", col[j]):
+      if re.match(".*ID$", col[j]) and col[j] != 'PID':
         values += "\'" + str(int(row[j])) + "\'"
       else:
         if is_numeric_dtype(types[j]):
@@ -47,4 +47,5 @@ for table in tables:
     single_insertion_file.write("INSERT INTO {0} VALUES ".format(table) + values)
     total_insertion_file.write("INSERT INTO {0} VALUES ".format(table) + values)
   single_insertion_file.close()
+  print(table + " done", file = sys.stderr)
 total_insertion_file.close()
