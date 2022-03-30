@@ -49,7 +49,7 @@ from rating_info inner join PRODUCTS as P on (rating_info.PID = P.PID)
 order by rating_avg
 
 -- query 3
-select avg(datediff(day, A.Delivery_date, A.Date_time)+1) as delivery_time_avg
+select avg(datediff(day, A.Date_time, A.Delivery_date)+1) as delivery_time_avg
 from (
   select P.PID, P.OID, Date_time, Delivery_date, Status
   from  PRODUCT_IN_ORDERS as P
