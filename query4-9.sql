@@ -1,34 +1,14 @@
 -- query 4
--- INSERT INTO USERS
--- VALUES 
---       ('1', 'GWG');
--- INSERT INTO EMPLOYEES
--- VALUES 
---       ('1', 'vssv', 123),
---       ('2', 'dwsv', 1463);
--- INSERT INTO COMPLAINTS
--- VALUES 
---       ('1', '1', '1', 'fesfe', '2021-08-01 12:00:00', '2021-08-01 13:00:00', '2021-08-01 14:00:00', 'addressed'),
---       ('2', '1', '1', 'fesfe', '2021-08-01 12:00:00', '2021-08-01 13:00:00', '2021-08-01 15:00:00','addressed'),
---       ('3', '1', '2', 'fesfe', '2021-08-01 12:00:00', '2021-08-01 13:00:00', '2021-08-01 15:00:00','addressed'),
---       ('4', '1', '2', 'fesfe', '2021-08-01 12:00:00', '2021-08-01 13:00:00', '2021-08-01 16:00:00','addressed');
--- SELECT *
--- FROM COMPLAINTS;
-
 -- Find the average latency for each employee
 WITH COMPLAINT_LATENCY AS (
       SELECT EID, AVG(datediff(second, Handled_date_time, Addressed_date_time)) as Latency   -- not sure about the latency
       FROM COMPLAINTS
-      WHERE Status = 'addressed'
+      WHERE Status = 'Addressed'
       GROUP BY EID)
 SELECT CL.EID
 FROM COMPLAINT_LATENCY AS CL
 WHERE CL.Latency = (SELECT MIN(CL.Latency)
                     FROM COMPLAINT_LATENCY AS CL)
-
--- DELETE FROM USERS
--- DELETE FROM EMPLOYEES
--- DELETE FROM COMPLAINTS
 
 
 -- query 5
@@ -60,7 +40,7 @@ WITH COMPLAINT_COUNT AS (
 USER_PRODUCT AS (
       SELECT O.UID, PO.PID, PO.Oprice
       FROM PRODUCT_IN_ORDERS AS PO, ORDERS AS O, COMPLAINT_COUNT AS CC
-      WHERE PO.PID = O.PID AND
+      WHERE PO.OID = O.OID AND
             O.UID = CC.UID)
 SELECT UP1.UID, UP1.PID
 FROM USER_PRODUCT AS UP1
@@ -111,4 +91,5 @@ THREE_MONTH_SALE AS (
 SELECT DISTINCT PName
 FROM THREE_MONTH_SALE
 WHERE QPrev < QCurrent AND
-      QCurrent < QNext
+      QCurrent < QNext AND
+      Sale_month BETWEEN '2021-02' AND '2021-11'  -- since the first and last month cannot form 3 effective consecutive months  
