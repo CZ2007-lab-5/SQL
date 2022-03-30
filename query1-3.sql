@@ -11,14 +11,14 @@ PH_records as (
         or (PH.End_date between '2021-08-01' and '2021-08-31')
 ),
 price_times_date_record as (
-  select PID, PName, (datediff(day, 
+  select PID, PName, price, (datediff(day, 
                               IIF('2021-08-01' > Start_date, '2021-08-01', Start_date), 
                               IIF('2021-08-31' < End_date, '2021-08-31', End_date)
                               )
                       + 1) as price_times_date
   from PH_records
 )
-select PID, PName, sum(price_times_date)/(datediff(day, '2021-08-01', '2021-08-31') + 1) as price_avg
+select PID, PName, sum(price_times_date*price)/(datediff(day, '2021-08-01', '2021-08-31') + 1) as price_avg
 from price_times_date_record
 group by PID, PName;
 
