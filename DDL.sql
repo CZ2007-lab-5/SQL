@@ -55,11 +55,11 @@ create table COMPLAINTS (
   Filed_date_time datetime not null,
   Handled_date_time datetime,
   Addressed_date_time datetime,
+  Status varchar(20) check (Status in ('pending', 'being handled', 'addressed', 'delivered')),
   EID varchar(8),
-  Status varchar(20) check (Status in ('Pending', 'Being handled', 'Addressed')),
   primary key (ID),
   foreign key (UID) references USERS(UID) on update cascade on delete set null,
-  foreign key (EID) references EMPLOYEES(ID) on update cascade on delete set null
+  foreign key (EID) references EMPLOYEES(EID) on update cascade on delete set null
 );
 
 create table COMPLAINTS_ON_SHOPS (
