@@ -36,10 +36,10 @@ create table SHOPS (
 );
 
 create table EMPLOYEES (
-  ID varchar(8),
+  EID varchar(8),
   Name varchar(70) not null,
   Salary numeric(12, 2) not null check(Salary > 0),
-  primary key (ID)
+  primary key (EID)
 );
 
 create table USERS (
@@ -49,7 +49,7 @@ create table USERS (
 );
 
 create table COMPLAINTS (
-  ID varchar(8),
+  CID varchar(8),
   UID varchar(8),
   Text varchar(300) not null,
   Filed_date_time datetime not null,
@@ -63,10 +63,10 @@ create table COMPLAINTS (
 );
 
 create table COMPLAINTS_ON_SHOPS (
-  ID varchar(8),
+  CID varchar(8),
   SID varchar(8),
-  primary key (ID),
-  foreign key (ID) references COMPLAINTS(ID) on update cascade on delete cascade,
+  primary key (CID),
+  foreign key (CID) references COMPLAINTS(CID) on update cascade on delete cascade,
   -- better to follow COMPLAINTS_ON_SHOPS
   -- foreign key (SID) references SHOPS(SID) -- on update cascade on delete set null
 );
@@ -82,10 +82,10 @@ create table ORDERS (
 );
 
 create table COMPLAINTS_ON_ORDERS (
-  ID varchar(8),
+  CID varchar(8),
   OID varchar(8),
-  primary key (ID),
-  foreign key (ID) references COMPLAINTS(ID) on update cascade on delete cascade,
+  primary key (CID),
+  foreign key (CID) references COMPLAINTS(CID) on update cascade on delete cascade,
   -- maybe add trigger or check in COMPLAINTS
   -- foreign key (OID) references ORDERS(OID) on update cascade on delete set null
 );
