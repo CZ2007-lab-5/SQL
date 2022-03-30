@@ -49,7 +49,7 @@ selected_product_pid as (
 ),
 -- for the selected product(pid), calculate average ratings
 rating_info as (
-  select PName, avg(rating) as rating_avg
+  select PName, avg(convert(numeric(10, 2), Rating)) as rating_avg
   from (
     FEEDBACK as F
     inner join 
