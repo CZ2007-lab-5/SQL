@@ -7,8 +7,7 @@ with iPhoneXs_PIDS as (
 PH_records as (
   select I.PID, I.PName, PH.price, PH.Start_date, PH.End_date
   from iPhoneXs_PIDS as I inner join PRICE_HISTORY as PH on (I.PID = PH.PID)
-  where (PH.Start_date between '2021-08-01' and '2021-08-31')
-        or (PH.End_date between '2021-08-01' and '2021-08-31')
+  where not (End_date < '2021-08-01' or Start_date > '2021-08-31')
 ),
 price_times_date_record as (
   select PID, PName, price, (datediff(day, 
