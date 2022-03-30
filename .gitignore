@@ -3,3 +3,4 @@
 .DS_Store
 *.log
 !countRecords.sql
+!query*.sql
