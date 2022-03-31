@@ -67,8 +67,6 @@ create table COMPLAINTS_ON_SHOPS (
   SID varchar(8),
   primary key (CID),
   foreign key (CID) references COMPLAINTS(CID) on update cascade on delete cascade,
-  -- better to follow COMPLAINTS_ON_SHOPS
-  -- foreign key (SID) references SHOPS(SID) -- on update cascade on delete set null
 );
 
 create table ORDERS (
@@ -86,8 +84,6 @@ create table COMPLAINTS_ON_ORDERS (
   OID varchar(8),
   primary key (CID),
   foreign key (CID) references COMPLAINTS(CID) on update cascade on delete cascade,
-  -- maybe add trigger or check in COMPLAINTS
-  -- foreign key (OID) references ORDERS(OID) on update cascade on delete set null
 );
 
 create table PRODUCTS (

@@ -28,7 +28,7 @@ group by PID, PName;
 
 
 -- query 2
--- select those product(pid) have 100+ 5-star feedback in August
+-- select all five star feedbacks' PIDs in August
 with five_star_in_june as (
   select PID
   from FEEDBACK as F
@@ -38,17 +38,21 @@ with five_star_in_june as (
       and rating = '5'
   )
 ),
+-- find the corresponding PName using those PIDs
+-- count the feedback number and aggregate by PName
+-- filter PName (Products) with 100+ 5-star feedback in August
 selected_product_pname as (
   select P.PName, count(P.PID) as rating_count
   from PRODUCTS as P join five_star_in_june on (P.PID = five_star_in_june.PID)
   group by PName
   having count(P.PID) > 100
 ),
+-- find the PID, PName of those filtered products
 selected_product_pid as (
   select P.PID, P.PName
   from PRODUCTS as P join selected_product_pname on (P.PName = selected_product_pname.PName)
 ),
--- for the selected product(pid), calculate average ratings
+-- count the average rating of those filtered products for all feedback
 rating_info as (
   select PName, avg(convert(numeric(10, 2), Rating)) as rating_avg
   from (
