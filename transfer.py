@@ -5,8 +5,7 @@ import re
 from pandas.api.types import is_numeric_dtype
 
 # table create order (dependency)
-# tables = ['PRICE_HISTORY', 'PRODUCT_IN_ORDERS', 'PRODUCT_IN_SHOPS','FEEDBACK','PRODUCTS','COMPLAINTS_ON_SHOPS','COMPLAINTS_ON_ORDERS','COMPLAINTS','EMPLOYEES','ORDERS','USERS','SHOPS']
-tables = ['FEEDBACK']
+tables = ['PRICE_HISTORY', 'PRODUCT_IN_ORDERS', 'PRODUCT_IN_SHOPS','FEEDBACK','PRODUCTS','COMPLAINTS_ON_SHOPS','COMPLAINTS_ON_ORDERS','COMPLAINTS','EMPLOYEES','ORDERS','USERS','SHOPS']
 tables = tables[::-1]
 postfix = '.xlsx'
 read_file_from_table = lambda table: pd.read_excel(table + postfix)

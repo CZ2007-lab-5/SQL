@@ -57,9 +57,9 @@ create table COMPLAINTS (
   Addressed_date_time datetime,
   Status varchar(20) check (Status in ('pending', 'being handled', 'addressed', 'delivered')),
   EID varchar(8),
-  primary key (ID),
-  foreign key (UID) references USERS(UID) on update cascade on delete set null,
-  foreign key (EID) references EMPLOYEES(EID) on update cascade on delete set null
+  primary key (CID),
+  foreign key (UID) references USERS(UID) on update cascade on delete cascade,
+  foreign key (EID) references EMPLOYEES(EID) on update cascade on delete cascade
 );
 
 create table COMPLAINTS_ON_SHOPS (
@@ -76,6 +76,7 @@ create table ORDERS (
   Shipping_address varchar(100) not null,
   Shipping_cost numeric(12, 2),
   primary key (OID),
+  -- Order information might still be useful after deleting USERS (e.g. calculating profit)
   foreign key (UID) references USERS(UID) on update cascade on delete set null
 );
 
