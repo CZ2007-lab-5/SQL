@@ -26,3 +26,10 @@ SELECT SID
 FROM SHOPS_COMPLAINTS AS SC
 WHERE SC.Num_of_complaints = (SELECT MAX(Num_of_complaints)
                               FROM SHOPS_COMPLAINTS);
+
+
+-- query 12
+SELECT P.Category, AVG(PS.SPrice) AS Average_price -- calculate average price
+FROM PRODUCTS AS P, PRODUCT_IN_SHOPS AS PS
+WHERE P.PID = PS.PID
+GROUP BY P.Category
