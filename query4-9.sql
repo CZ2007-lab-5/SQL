@@ -128,10 +128,11 @@ THREE_MONTH_SALE AS (
              Monthly_sale AS QCurrent, 
              LEAD(Monthly_sale) OVER (ORDER BY PName, Sale_month) as QNext
       FROM MONTHLY_SALE
-      WHERE Sale_month BETWEEN '2021-02' AND '2021-11'  -- because the first and last month cannot
-)                                                       -- form 3 effective consecutive months
+)                                                       
 SELECT DISTINCT PName
 FROM THREE_MONTH_SALE
 WHERE QPrev < QCurrent AND            -- increasingly purchased 
-      QCurrent < QNext
+      QCurrent < QNext AND
+      Sale_month BETWEEN '2021-02' AND '2021-11'  -- because the first and last month cannot
+                                                  -- form 3 effective consecutive months  
         
