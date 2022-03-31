@@ -48,7 +48,7 @@ selected_product_pname as (
   select P.PName, count(P.PID) as rating_count
   from PRODUCTS as P join five_star_in_june on (P.PID = five_star_in_june.PID)
   group by PName
-  having count(P.PID) > 100
+  having count(P.PID) >= 100
 ),
 -- find the PID, PName of those filtered products
 selected_product_pid as (
