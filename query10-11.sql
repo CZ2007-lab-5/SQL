@@ -6,6 +6,7 @@ WITH COMPLAINTS_EMPLOYEE AS (
     WHERE Status = 'Addressed'
     GROUP BY EID
 )
+-- select the employee with maximum handled complainta
 SELECT EID
 FROM COMPLAINTS_EMPLOYEE AS CE
 WHERE CE.Num_of_complaints = (SELECT MAX(Num_of_complaints)
@@ -20,6 +21,7 @@ WITH SHOPS_COMPLAINTS AS (
           C.Status != 'Addresses' 
     GROUP BY CS.SID
 )
+-- select the shop with maximum complaints
 SELECT SID
 FROM SHOPS_COMPLAINTS AS SC
 WHERE SC.Num_of_complaints = (SELECT MAX(Num_of_complaints)
