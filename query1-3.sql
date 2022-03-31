@@ -18,13 +18,16 @@ price_times_date_record as (
                               )
                       + 1) as price_times_date
   from PH_records
-)
+),
+price_avg_for_product_in_shop as (
 -- sum up the price*duration and get the average.
-select PID, PName, sum(price_times_date*price)/(datediff(day, '2021-08-01', '2021-08-31') + 1) as price_avg
-from price_times_date_record
-group by PID, PName;
--- the result is shown for each product in shops
--- if the avg price of the whole website is needed, take average on price_avg again
+  select PID, PName, sum(price_times_date*price)/(datediff(day, '2021-08-01', '2021-08-31') + 1) as price_avg
+  from price_times_date_record
+  group by PID, PName
+)
+-- the average price of shiokee (the whole platform)
+select avg(price_avg)
+from price_avg_for_product_in_shop;
 
 
 -- query 2
